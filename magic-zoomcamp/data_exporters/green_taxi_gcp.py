@@ -9,18 +9,20 @@ if 'data_exporter' not in globals():
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/home/src/main-shade-395414-2463a78bca4f.json'
 
-project_id = 'main-shade-395414'
-bucket_name = 'mage-zoomcamp-main-shade-395414'
-table_name = 'green_taxi_data'
-root_path = f"{bucket_name}/{table_name}"
-
 @data_exporter
 def export_data_to_google_cloud_storage(data, *args, **kwargs) -> None:
+    project_id = kwargs['project_id']
+    bucket_name = kwargs['bucket_name']
+    table_name = kwargs['table_name']
+    root_path = f"{bucket_name}-{project_id}/{table_name}"
+    print(root_path)
+    partition_cols = kwargs['partition_cols']
+
     table = pa.Table.from_pandas(data)
     gcs = pa.fs.GcsFileSystem()
     pq.write_to_dataset(
         table,
         root_path=root_path,
-        partition_cols=['lpep_pickup_date'],
+        partition_cols=partition_cols,
         filesystem=gcs
     )

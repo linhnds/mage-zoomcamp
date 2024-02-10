@@ -3,7 +3,7 @@ blocks:
   color: null
   configuration: {}
   downstream_blocks:
-  - green_taxi_transform
+  - green_taxi_gcp
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -20,20 +20,17 @@ blocks:
   configuration:
     file_source:
       path: transformers/green_taxi_transform.py
-  downstream_blocks:
-  - green_taxi_postgres
-  - green_taxi_gcp
+  downstream_blocks: []
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
   name: green_taxi_transform
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: transformer
-  upstream_blocks:
-  - green_taxi_load
+  upstream_blocks: []
   uuid: green_taxi_transform
 - all_upstream_blocks_executed: true
   color: null
@@ -57,8 +54,7 @@ blocks:
   status: executed
   timeout: null
   type: data_exporter
-  upstream_blocks:
-  - green_taxi_transform
+  upstream_blocks: []
   uuid: green_taxi_postgres
 - all_upstream_blocks_executed: true
   color: null
@@ -74,11 +70,11 @@ blocks:
   language: python
   name: green_taxi_gcp
   retry_config: null
-  status: executed
+  status: failed
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - green_taxi_transform
+  - green_taxi_load
   uuid: green_taxi_gcp
 cache_block_output_in_memory: false
 callbacks: []
@@ -101,7 +97,26 @@ settings:
 spark_config: {}
 tags: []
 type: python
-updated_at: '2024-02-01 15:29:41'
 uuid: green_taxi_etl
+variables:
+  bucket_name: mage-zoomcamp-m3
+  file_type: parquet
+  months:
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  - 9
+  - 10
+  - 11
+  - 12
+  partition_cols: ''
+  project_id: main-shade-395414
+  table_name: green_taxi_data
+  year: 2022
 variables_dir: /home/src/mage_data/magic-zoomcamp
 widgets: []

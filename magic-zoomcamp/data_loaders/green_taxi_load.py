@@ -6,14 +6,11 @@ if 'data_loader' not in globals():
 if 'test' not in globals():
     from mage_ai.data_preparation.decorators import test
 
-
 @data_loader
 def load_data_from_api(*args, **kwargs):
-    """
-    Template for loading data from API
-    """
-    year = 2020
-    months = [10, 11, 12]
+    year = kwargs['year']
+    months = kwargs['months']
+    file_type = kwargs['file_type']
     df = pd.DataFrame()
     taxi_dtypes = {
         'VendorID': pd.Int64Dtype(),
@@ -35,18 +32,26 @@ def load_data_from_api(*args, **kwargs):
     }
     parse_dates = ['lpep_pickup_datetime', 'lpep_dropoff_datetime']
     for month in months:
-        file_name = f"green_tripdata_{year}-{month}.csv.gz"
-        url = f'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/{file_name}'
-        df_month = pd.read_csv(
-            url,
-            sep=',',
-            compression='gzip',
-            dtype=taxi_dtypes,
-            parse_dates=parse_dates
-        )
-        print(f"Month {month}: {len(df_month)}")
+        if file_type == 'csv':
+            base_url = "https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green"
+            file_name = f"green_tripdata_{year}-{month:02d}.csv.gz"
+            url = f'{base_url}/{file_name}'
+            df_month = pd.read_csv(
+                url,
+                sep=',',
+                compression='gzip',
+                dtype=taxi_dtypes,
+                parse_dates=parse_dates
+            )
+        else:
+            base_url = "https://d37ci6vzurychx.cloudfront.net/trip-data"
+            file_name = f"green_tripdata_{year}-{month:02d}.parquet"
+            url = f"{base_url}/{file_name}"
+            df_month = pd.read_parquet(url)
+        print(f"Month {month:02d}: {len(df_month):,}")
         df = pd.concat([df, df_month], axis=0)
-    print(f"Total rows: {len(df)}")
+    print(f"Total rows: {len(df):,}")
+    print(df.dtypes)
 
     return df
 

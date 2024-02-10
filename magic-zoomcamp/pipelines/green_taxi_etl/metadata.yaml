@@ -3,7 +3,7 @@ blocks:
   color: null
   configuration: {}
   downstream_blocks:
-  - green_taxi_gcp
+  - export_to_gcs
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -68,14 +68,14 @@ blocks:
   executor_type: local_python
   has_callback: false
   language: python
-  name: green_taxi_gcp
+  name: export_to_gcs
   retry_config: null
-  status: failed
+  status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
   - green_taxi_load
-  uuid: green_taxi_gcp
+  uuid: export_to_gcs
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}
@@ -99,7 +99,7 @@ tags: []
 type: python
 uuid: green_taxi_etl
 variables:
-  bucket_name: mage-zoomcamp-m3
+  bucket_name: mage-zoomcamp-m3-main-shade-395414
   file_type: parquet
   months:
   - 1
@@ -115,8 +115,7 @@ variables:
   - 11
   - 12
   partition_cols: ''
-  project_id: main-shade-395414
-  table_name: green_taxi_data
+  table_name: green_taxi_data-2022
   year: 2022
 variables_dir: /home/src/mage_data/magic-zoomcamp
 widgets: []

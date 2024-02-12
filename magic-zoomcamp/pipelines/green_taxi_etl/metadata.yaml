@@ -76,6 +76,21 @@ blocks:
   upstream_blocks:
   - green_taxi_load
   uuid: export_to_gcs
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: convert_datetime
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks: []
+  uuid: convert_datetime
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config: {}

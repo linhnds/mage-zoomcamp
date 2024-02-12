@@ -29,5 +29,6 @@ def export_data_to_google_cloud_storage(df: DataFrame, *args, **kwargs) -> None:
         table,
         root_path=root_path,
         partition_cols=partition_cols,
-        filesystem=gcs
+        filesystem=gcs,
+        use_deprecated_int96_timestamps=True
     )
